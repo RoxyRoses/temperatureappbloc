@@ -12,7 +12,6 @@ part 'bloc_forecast_state.dart';
 class BlocForecastBloc extends Bloc<BlocForecastEvent, BlocForecastState> {
   final ForecastRepository repository;
   BlocForecastBloc(this.repository) : super(BlocForecastInitial()) {
-    // ignore: void_checks
     on<SearchForecastEvent>((event, emit) async {
         try {
           final forecast = await repository.fetchForecast(event.name);

@@ -1,11 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:temperatureapp/model/forecast_model.dart';
-import 'package:temperatureapp/view/forecast_page.dart';
-
+import '../app/app_module.dart';
 import '../bloc/bloc_forecast_bloc.dart';
-import '../model/forecast_repository.dart';
+import 'forecast_page.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({Key? key, this.error = ''}) : super(key: key);
@@ -18,13 +18,10 @@ class FirstPage extends StatefulWidget {
 
 class _FirstPageState extends State<FirstPage> {
   final controllerCity = TextEditingController();
-  //final ForecastController controller = ForecastController(bloc);
   final formKey = GlobalKey<FormState>();
   final ForecastsModel forecast = ForecastsModel();
-
   @override
   Widget build(BuildContext context) {
-    print('reconstruindo');
     final size = MediaQuery.of(context).size;
     final bloc = BlocProvider.of<BlocForecastBloc>(context);
 
@@ -47,6 +44,8 @@ class _FirstPageState extends State<FirstPage> {
                     ));
           }
           if (state is SuccessForecastState) {
+           
+            //Modular.to.navigate('/forecast');
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -93,7 +92,6 @@ class _FirstPageState extends State<FirstPage> {
                             right: size.width * 20 / size.width),
                         child: TextFormField(
                           controller: controllerCity,
-                          //onChanged: (value) => forecastName(value),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Enter a valid city';
