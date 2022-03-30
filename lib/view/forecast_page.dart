@@ -267,6 +267,9 @@ class ForecastPage extends StatelessWidget {
     if (forecast.description.toString() == "Patchy rain possible") {
       return Colors.grey;
     }
+    if (forecast.description.toString() == "Light rain shower") {
+      return Colors.grey;
+    }
     if (forecast.description.toString() == "Sunny") {
       return Colors.yellow;
     }

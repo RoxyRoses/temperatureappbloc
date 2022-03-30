@@ -1,17 +1,15 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:temperatureapp/model/forecast_model.dart';
 
 class ForecastRepository {
   Future<ForecastsModel> fetchForecast(String city) async {
     ForecastsModel forecast;
     try {
-      final response = await http.get(
-        Uri.parse('https://goweather.herokuapp.com/weather/' +
-            city.replaceAll(' ', '')),
+      final response = await Dio().get('https://goweather.herokuapp.com/weather/' +
+            city.replaceAll(' ', ''),
       );
       await Future.delayed(const Duration(seconds: 2));
-      forecast = ForecastsModel.fromJson(jsonDecode(response.body));
+      forecast = ForecastsModel.fromJson(response.data);
       forecast.name = city[0].toUpperCase() + city.substring(1);
       return forecast;
     } on Exception catch (_) {
