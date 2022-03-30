@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:temperatureapp/model/forecast_repository.dart';
 
 import '../model/forecast_model.dart';
 
@@ -9,23 +10,27 @@ part 'bloc_forecast_event.dart';
 part 'bloc_forecast_state.dart';
 
 class BlocForecastBloc extends Bloc<BlocForecastEvent, BlocForecastState> {
-  BlocForecastBloc() : super(BlocForecastInitial()) {
+  final ForecastRepository repository;
+  BlocForecastBloc(this.repository) : super(BlocForecastInitial()) {
     // ignore: void_checks
-    on<BlocForecastEvent>((event, emit) async* {
-      if (event is searchForecastEvent) {
+    on<SearchForecastEvent>((event, emit) async {
         try {
-          yield StartForecastState();
-          final forecast = await fetchForecast(event.name);
-          if(forecast == null)
-          {yield ErrorForecastState(message: 'Type the name of the city');} else {
-            yield SuccessForecastState(forecast);
+          final forecast = await repository.fetchForecast(event.name);
+          if (forecast == null) {
+            emit(
+              ErrorForecastState(message: 'Type the name of the city'),
+            );
+          } else {
+            emit(
+              SuccessForecastState(forecast),
+            );
           }
         } catch (e) {
-          yield ErrorForecastState(message: 'Something went wrong');
+          emit(ErrorForecastState(message: 'Something went wrong'));
           print(e);
         }
       }
-    });
+    );
   }
 }
 

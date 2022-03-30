@@ -5,10 +5,10 @@ abstract class BlocForecastEvent {
   const BlocForecastEvent();
 }
 
-class searchForecastEvent extends BlocForecastEvent{
+class SearchForecastEvent extends BlocForecastEvent{
 final String name;
 
-const searchForecastEvent(this.name);
+const SearchForecastEvent(this.name);
 
 List<Object> get props => [name];
 
